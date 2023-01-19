@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { postAdded } from "./postsSlice";
 import { selectAllUsers } from "../users/usersSlice";
+import validator from "validator";
 
 const AddPostForm = () => {
 	const dispatch = useDispatch();
@@ -9,12 +10,18 @@ const AddPostForm = () => {
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
 	const [userId, setUserId] = useState("");
+	const [error, setError] = useState("");
 
-	const users = useSelector(selectAllUsers);
-
-	const onTitleChanged = (e) => setTitle(e.target.value);
+	const onTitleChanged = (e) => {
+		if (!validator.isEmpty(title)) {
+			return setError("The email you input is invalid.");
+		}
+		setTitle(e.target.value);
+	};
 	const onContentChanged = (e) => setContent(e.target.value);
 	const onAuthorChanged = (e) => setUserId(e.target.value);
+
+	const users = useSelector(selectAllUsers);
 
 	const onSavePostClicked = () => {
 		if (title && content) {
@@ -57,6 +64,7 @@ const AddPostForm = () => {
 					value={content}
 					onChange={onContentChanged}
 				/>
+				{error && <p>{error}</p>}
 				<button type="button" onClick={onSavePostClicked} disabled={!canSave}>
 					Save Post
 				</button>
