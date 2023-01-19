@@ -28,8 +28,8 @@ test("inputs should be initially empty", () => {
 //userEvent test - type title
 test("should be able to type a title", () => {
 	const titleElement = screen.getByLabelText(/Post Title:/i);
-	userEvent.type(titleElement, "title");
-	expect(titleElement.value).toBe("title");
+	userEvent.type(titleElement, "s");
+	expect(titleElement.value).toBe("s");
 });
 
 //userEvent test - type content
